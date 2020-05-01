@@ -38,6 +38,31 @@ def create_config_file(config, config_path):
 def create_data_file(config, data_path):
     def get_data(n_data, sigma):
         x, y = [], []
+        while len(x) < n_data / 6:
+            x1 = np.random.rand()
+            x2 = 0.5 + np.sqrt(0.5*0.5-(x1-0.5)**2)
+            x.append([x1, x2])
+            y.append([1, 0, 0])
+        while len(x) < n_data / 3:
+            x1 = np.random.rand()
+            x2 = 0.5 - np.sqrt(0.5*0.5-(x1-0.5)**2)
+            x.append([x1, x2])
+            y.append([1, 0, 0])
+        while len(x) < 2 * n_data / 3:
+            x1 = np.random.uniform(low=0.1, high=0.7)
+            x2 = 0.4 + 1.6 * np.sqrt(0.3*0.3-(x1-0.4)**2)
+            x.append([x1, x2])
+            y.append([0, 1, 0])
+        while len(x) < n_data:
+            x1 = np.random.uniform(low=0.3, high=0.9)
+            x2 = 0.6 - 1.6 * np.sqrt(0.3*0.3-(x1-0.6)**2)
+            x.append([x1, x2])
+            y.append([0, 0, 1])
+        return (x, y)
+    
+    '''
+    def get_data(n_data, sigma):
+        x, y = [], []
         while len(x) < n_data / 3:
             x1 = np.random.normal(loc=0.5, scale=sigma)
             x2 = np.random.normal(loc=0.75, scale=sigma)
@@ -54,6 +79,7 @@ def create_data_file(config, data_path):
             x.append([x1, x2])
             y.append([0, 0, 1])
         return (x, y)
+    '''
     
     data = get_data(config["N_data_origin"], 0.07)
     dataset = {
@@ -262,11 +288,11 @@ if __name__ == "__main__":
         "Decay": 0.9,
         "Decay2": 0.999,
         "Regularization_rate": 0.0001,
-        "Epoch": 2,
+        "Epoch": 5000,
         "Batch_size": 10,
         "Is_visualize": 1,
-        "N_data_origin": 300,
-        "N_data_generate": 5700,
+        "N_data_origin": 800,
+        "N_data_generate": 5200,
     }
 
     project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
